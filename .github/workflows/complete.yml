@@ -10,11 +10,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5.0.0
       
-      - name: Install NPM packages
+      - name: Setup Node.js environment
         run: npm install
-   
-      - name: verification
-        run: ls -alhR
 
       - name: Build the code
         run: npm install && npm run zip --if-present
@@ -22,7 +19,7 @@ jobs:
       - name: Test the code
         run: npm test --coverage
       
-      - name: Upload artifact for deployment job
+      - name: Post setup Node.js environment
         uses: actions/upload-artifact@v4
         with:
           name: node-app
