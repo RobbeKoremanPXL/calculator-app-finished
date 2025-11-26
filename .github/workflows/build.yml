@@ -1,0 +1,20 @@
+name: Build Example
+on:
+  workflow_dispatch:
+
+jobs:
+  dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v5.0.0
+      
+      - name: Install NPM packages
+        run: npm install
+   
+      - name: verification
+        run: ls -alhR
+
+      - name: Build the code
+        run: npm install && npm run zip --if-present
