@@ -1,0 +1,28 @@
+name: Test deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull latest image from Docker Hub
+        run: docker pull 12401862/:latest
+
+      - name: Stop and remove existing container (if any)
+        run: |
+          if [ "$(docker ps -q -f name=calculator-app)" ]; then
+            docker stop calculator-app
+            docker rm calculator-app
+          elif [ "$(docker ps -aq -f name=calculator-app)" ]; then
+            docker rm calculator-app
+          fi
+
+      - name: Run latest container
+        run: |
+          docker run -d \
+            --name calculator-app \
+            -p 3000:3000 \
+            YOUR_DOCKERHUB_USER/your-image-name:latest
