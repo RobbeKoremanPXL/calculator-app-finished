@@ -16,16 +16,15 @@ jobs:
       - name: Build the code
         run: npm install && npm run zip --if-present
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Test the code
         run: npm test --coverage
 
-  create-report:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
+          
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: build.zip
+
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v1.7.0
