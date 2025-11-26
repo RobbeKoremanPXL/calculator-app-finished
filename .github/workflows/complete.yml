@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  dependencies:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,8 +16,16 @@ jobs:
       - name: Build the code
         run: npm install && npm run zip --if-present
 
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Test the code
-        run: npm test -- --coverage
+        run: npm test --coverage
 
+  create-report:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
       - name: Better Test Reports Action
         uses: mridang/action-test-reporter@v1.7.0
