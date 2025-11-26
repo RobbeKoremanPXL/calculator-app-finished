@@ -13,13 +13,15 @@ jobs:
       - name: Setup Node.js environment
         run: npm install
 
-      #- name: Build the code
-      #  run: npm install && npm run zip --if-present
-
       - name: Build the code
-        run: |
-          npm install
-          npm run build
+        run: npm install && npm run zip --if-present
+
+      #- name: Build the code
+      #  run: |
+      #    npm install
+      #    npm run build
+      #    zip -r build.zip . -x "node_modules/*" ".git/*"
+
 
       - name: Test the code
         run: npm test -- --coverage
