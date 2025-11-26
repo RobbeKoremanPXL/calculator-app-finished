@@ -1,0 +1,19 @@
+name: Production Deployment
+on: [push]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_IP }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            whoami
+            docker pull ${{ vars.DOCKERHUB_USERNAME }}/devops-calcapp:latest
+            docker stop $(docker ps -q)
+            docker run -p 80:3000 ${{ vars.DOCKERHUB_USERNAME }}/devops-calcapp:latest 
