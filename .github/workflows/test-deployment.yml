@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Pull latest image from Docker Hub
-        run: docker pull 12401862/:latest
+        run: docker pull ${{ vars.DOCKERHUB_USERNAME }}/devops-calcapp:latest
 
       - name: Stop and remove existing container (if any)
         run: |
@@ -25,4 +25,4 @@ jobs:
           docker run -d \
             --name calculator-app \
             -p 3000:3000 \
-            YOUR_DOCKERHUB_USER/your-image-name:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/devops-calcapp:latest
